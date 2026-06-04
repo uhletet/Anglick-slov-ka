@@ -3,7 +3,7 @@ from slovicka import Slovicka
 from sprava_slovicek import SpravaSlovicek
 from statistiky import Statistiky
 from databaze import vytvor_db
-ADMIN_HESLO = "SLOVO"
+ADMIN_HESLO = "slovo"
 vytvor_db()
 
 
