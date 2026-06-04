@@ -1,13 +1,14 @@
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file, session
 from slovicka import Slovicka
 from sprava_slovicek import SpravaSlovicek
 from statistiky import Statistiky
 from databaze import vytvor_db
-
+ADMIN_HESLO = "SLOVO"
 vytvor_db()
 
 
 app = Flask(__name__)
+app.secret_key = "tvoje_super_tajne_heslo_2026"
 
 hra = Slovicka()
 smer_en_cz = True
@@ -83,6 +84,9 @@ def zkontroluj():
 @app.route("/sprava")
 def sprava_slovicek():
 
+    if not session.get("admin"):
+        return redirect("/login")
+
     sprava.nacti()
 
     return render_template(
@@ -91,6 +95,8 @@ def sprava_slovicek():
     )
 @app.route("/pridej", methods=["POST"])
 def pridej():
+    if not session.get("admin"):
+        return redirect("/login")
 
     anglicky = request.form["english"]
     cesky = request.form["czech"]
@@ -106,6 +112,8 @@ def pridej():
     )
 @app.route("/smaz/<int:index>")
 def smaz(index):
+    if not session.get("admin"):
+        return redirect("/login")
 
     sprava.smaz(index)
 
@@ -115,6 +123,8 @@ def smaz(index):
     )
 @app.route("/upravit/<int:index>")
 def upravit_form(index):
+    if not session.get("admin"):
+        return redirect("/login")
 
     slovo = sprava.vsechna()[index]
 
@@ -125,6 +135,8 @@ def upravit_form(index):
     )
 @app.route("/uloz_upravu/<int:index>", methods=["POST"])
 def uloz_upravu(index):
+    if not session.get("admin"):
+        return redirect("/login")
 
     anglicky = request.form["english"]
     cesky = request.form["czech"]
@@ -181,6 +193,8 @@ def zalohovat():
     )
 @app.route("/obnovit", methods=["POST"])
 def obnovit():
+    if not session.get("admin"):
+        return redirect("/login")
 
     soubor = request.files["soubor"]
 
@@ -192,7 +206,35 @@ def obnovit():
         hra.nacti_slovicka()
 
     return redirect("/sprava")
+@app.route("/login")
+def login():
 
+    return render_template(
+        "login.html"
+    )
+
+
+@app.route("/prihlasit", methods=["POST"])
+def prihlasit():
+
+    heslo = request.form["heslo"]
+
+    if heslo == ADMIN_HESLO:
+
+        session["admin"] = True
+
+        return redirect("/sprava")
+
+    return redirect("/login")
+@app.route("/logout")
+def logout():
+
+    session.pop(
+        "admin",
+        None
+    )
+
+    return redirect("/")
 if __name__ == "__main__":
     app.run(debug=True)
 

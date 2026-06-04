@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Přihlášení</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='style.css') }}">
+
+</head>
+<body>
+
+<h1>🔒 Přihlášení správce</h1>
+
+<form action="/prihlasit"
+      method="post">
+
+    <input
+        type="password"
+        name="heslo"
+        placeholder="Heslo"
+        required>
+
+    <button type="submit">
+        Přihlásit
+    </button>
+
+</form>
+
+<a href="/">
+    <button>
+        🏠 Menu
+    </button>
+</a>
+
+</body>
+</html>
