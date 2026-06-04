@@ -1,11 +1,15 @@
-import csv
+from databaze import (
+    pridej_slovicko,
+    nacti_slovicka,
+    smaz_slovicko,
+    uprav_slovicko
+)
 
 
 class SpravaSlovicek:
 
-    def __init__(self, soubor="slovicka.csv"):
+    def __init__(self):
 
-        self.soubor = soubor
         self.slovicka = []
 
         self.nacti()
@@ -14,50 +18,19 @@ class SpravaSlovicek:
 
         self.slovicka.clear()
 
-        try:
-            with open(self.soubor, "r", encoding="utf-8") as f:
+        data = nacti_slovicka()
 
-                ctecka = csv.DictReader(f, delimiter=";")
+        for radek in data:
 
-                for radek in ctecka:
-                    self.slovicka.append(radek)
+            self.slovicka.append({
 
-        except FileNotFoundError:
+                "id": radek[0],
 
-            with open(
-                self.soubor,
-                "w",
-                newline="",
-                encoding="utf-8"
-            ) as f:
+                "english": radek[1],
 
-                zapisovac = csv.writer(f, delimiter=";")
+                "czech": radek[2]
 
-                zapisovac.writerow(
-                    ["english", "czech"]
-                )
-
-    def uloz(self):
-
-        with open(
-            self.soubor,
-            "w",
-            newline="",
-            encoding="utf-8"
-        ) as f:
-
-            zapisovac = csv.writer(f, delimiter=";")
-
-            zapisovac.writerow(
-                ["english", "czech"]
-            )
-
-            for slovo in self.slovicka:
-
-                zapisovac.writerow([
-                    slovo["english"],
-                    slovo["czech"]
-                ])
+            })
 
     def pridej(self, english, czech):
 
@@ -67,12 +40,12 @@ class SpravaSlovicek:
         if english == "" or czech == "":
             return False
 
-        self.slovicka.append({
-            "english": english,
-            "czech": czech
-        })
+        pridej_slovicko(
+            english,
+            czech
+        )
 
-        self.uloz()
+        self.nacti()
 
         return True
 
@@ -80,9 +53,13 @@ class SpravaSlovicek:
 
         if 0 <= index < len(self.slovicka):
 
-            del self.slovicka[index]
+            id_slova = self.slovicka[index]["id"]
 
-            self.uloz()
+            smaz_slovicko(
+                id_slova
+            )
+
+            self.nacti()
 
             return True
 
@@ -97,15 +74,15 @@ class SpravaSlovicek:
 
         if 0 <= index < len(self.slovicka):
 
-            self.slovicka[index] = {
+            id_slova = self.slovicka[index]["id"]
 
-                "english": nove_anglicky.strip(),
+            uprav_slovicko(
+                id_slova,
+                nove_anglicky.strip(),
+                nove_cesky.strip()
+            )
 
-                "czech": nove_cesky.strip()
-
-            }
-
-            self.uloz()
+            self.nacti()
 
             return True
 
@@ -138,13 +115,13 @@ class SpravaSlovicek:
 
                     if anglicky and cesky:
 
-                        self.slovicka.append({
-                            "english": anglicky,
-                            "czech": cesky
-                        })
+                        pridej_slovicko(
+                            anglicky,
+                            cesky
+                        )
 
                         pridano += 1
 
-        self.uloz()
+        self.nacti()
 
         return pridano

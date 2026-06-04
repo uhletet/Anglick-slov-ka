@@ -10,6 +10,25 @@
 <body>
 
 <h1>Správa slovíček</h1>
+
+<h2>📂 Obnovit ze zálohy</h2>
+
+<form action="/obnovit"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input
+        type="file"
+        name="soubor"
+        accept=".csv"
+        required
+    >
+
+    <button type="submit">
+        Obnovit
+    </button>
+
+</form>
 <a href="/">
     <button>🏠 Menu</button>
 </a>

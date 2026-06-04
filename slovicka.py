@@ -1,6 +1,7 @@
-import csv
 import random
 import os
+
+from databaze import nacti_slovicka
 
 
 class Slovicka:
@@ -32,56 +33,30 @@ class Slovicka:
 
         self.slovicka.clear()
 
-        try:
-            with open(self.soubor, "r", encoding="utf-8") as f:
+        data = nacti_slovicka()
 
-                ctecka = csv.DictReader(f, delimiter=";")
+        for radek in data:
+            self.slovicka.append({
 
-                for radek in ctecka:
-                    self.slovicka.append(radek)
+                "id": radek[0],
 
+                "english": radek[1],
 
-        except FileNotFoundError:
+                "czech": radek[2]
 
-            with open(
-
-                    self.soubor,
-
-                    "w",
-
-                    newline="",
-
-                    encoding="utf-8"
-
-            ) as f:
-
-                zapisovac = csv.writer(f, delimiter=";")
-
-                zapisovac.writerow(
-
-                    ["english", "czech"]
-
-                )
+            })
 
         self.zasobnik = self.slovicka.copy()
 
-    def nacti_rekord(self):
+    def restart_hry(self):
 
-        if not os.path.exists(self.rekord_soubor):
-            with open(self.rekord_soubor, "w") as f:
-                f.write("0")
+        self.nacti_slovicka()
 
-            self.rekord = 0
-            return
+        self.body = 0
+        self.spatne = 0
+        self.zivoty = 3
 
-        with open(self.rekord_soubor, "r") as f:
-
-            obsah = f.read().strip()
-
-            if obsah == "":
-                self.rekord = 0
-            else:
-                self.rekord = int(obsah)
+        self.zasobnik = self.slovicka.copy()
 
     def uloz_rekord(self):
 
@@ -166,6 +141,31 @@ class Slovicka:
 
         return len(self.slovicka)
 
+    def nacti_rekord(self):
+
+        if not os.path.exists(self.rekord_soubor):
+            with open(self.rekord_soubor, "w") as f:
+                f.write("0")
+
+            self.rekord = 0
+            return
+
+        with open(self.rekord_soubor, "r") as f:
+
+            obsah = f.read().strip()
+
+            if obsah == "":
+                self.rekord = 0
+            else:
+                self.rekord = int(obsah)
+
+    def uloz_rekord(self):
+
+        if self.body > self.rekord:
+            self.rekord = self.body
+
+            with open(self.rekord_soubor, "w") as f:
+                f.write(str(self.rekord))
     def zbyva_slovicek(self):
 
         return len(self.zasobnik)

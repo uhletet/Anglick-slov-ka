@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request , redirect
+from flask import Flask, render_template, request, redirect, send_file
 from slovicka import Slovicka
 from sprava_slovicek import SpravaSlovicek
 from statistiky import Statistiky
+from databaze import vytvor_db
+
+vytvor_db()
+
 
 app = Flask(__name__)
 
@@ -167,6 +171,27 @@ def nova_hra():
     hra.restart_hry()
 
     return redirect("/procvicovani")
+
+@app.route("/zalohovat")
+def zalohovat():
+
+    return send_file(
+        "slovicka.csv",
+        as_attachment=True
+    )
+@app.route("/obnovit", methods=["POST"])
+def obnovit():
+
+    soubor = request.files["soubor"]
+
+    if soubor:
+
+        soubor.save("slovicka.csv")
+
+        sprava.nacti()
+        hra.nacti_slovicka()
+
+    return redirect("/sprava")
 
 if __name__ == "__main__":
     app.run(debug=True)
