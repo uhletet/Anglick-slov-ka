@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Procvičování</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Přelož slovíčko</h1>
+{% if smer %}
+
+<h3>
+Anglicky → Česky
+</h3>
+
+{% else %}
+
+<h3>
+Česky → Anglicky
+</h3>
+
+{% endif %}
+
+<h2 id="slovo">{{ slovo }}</h2>
+
+<button onclick="prectiSlovo()">
+    🔊 Přečíst slovíčko
+</button>
+
+<form action="/zkontroluj" method="post">
+
+    <input
+        type="text"
+        name="odpoved"
+        autocomplete="off"
+        autofocus
+    >
+
+    <br><br>
+
+    <button type="submit">
+        Zkontrolovat
+    </button>
+
+</form>
+<br><br>
+
+<a href="/">
+    <button>🏠 Menu</button>
+</a>
+<script>
+    function prectiSlovo(){
+
+    let text = document.getElementById(
+        "slovo"
+    ).innerText;
+
+    let hlas = new SpeechSynthesisUtterance(
+        text
+    );
+
+    hlas.lang = "en-US";
+
+    hlas.rate = 0.9;
+
+    speechSynthesis.speak(
+        hlas
+    );
+}
+
+window.onload = function(){
+
+    setTimeout(
+        prectiSlovo,
+        500
+    );
+
+};
+
+
+
+</script>
+</body>
+</html>

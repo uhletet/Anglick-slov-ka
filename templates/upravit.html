@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upravit slovíčko</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>✏️ Upravit slovíčko</h1>
+
+<form action="/uloz_upravu/{{ index }}" method="post">
+
+    <input
+        type="text"
+        name="english"
+        value="{{ slovo.english }}"
+        required
+    >
+
+    <input
+        type="text"
+        name="czech"
+        value="{{ slovo.czech }}"
+        required
+    >
+
+    <button type="submit">
+        💾 Uložit
+    </button>
+
+</form>
+
+<br>
+
+<a href="/sprava">
+    <button>
+        ← Zpět
+    </button>
+</a>
+
+</body>
+</html>

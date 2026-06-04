@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anglická slovíčka</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>ANGLICKÁ SLOVÍČKA</h1>
+<form action="/nastav_smer" method="post">
+
+    <select name="smer">
+
+        <option value="en_cz">
+            Anglicky → Česky
+        </option>
+
+        <option value="cz_en">
+            Česky → Anglicky
+        </option>
+
+    </select>
+
+    <button type="submit">
+        Nastavit směr
+    </button>
+
+</form>
+
+<br>
+
+<a href="/procvicovani">
+    <button>📖 Procvičovat</button>
+</a>
+
+<a href="/sprava">
+    <button>📚 Správa slovíček</button>
+</a>
+
+<a href="/statistiky">
+    <button>📊 Statistiky</button>
+</a>
+
+</body>
+</html>
+
+</body>
+</html>

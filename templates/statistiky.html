@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiky</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>📊 Statistiky</h1>
+
+<div class="stat-box">
+
+    <h2>🏆 Rekord: {{ rekord }}</h2>
+
+    <h2>✅ Správně: {{ spravne }}</h2>
+
+    <h2>❌ Špatně: {{ spatne }}</h2>
+
+    <h2>📈 Úspěšnost: {{ uspesnost }} %</h2>
+
+    <h2>🚀 Spuštění: {{ spusteni }}</h2>
+
+    <h2>📚 Slovíček: {{ pocet_slovicek }}</h2>
+
+</div>
+
+<br>
+
+<a href="/">
+    <button>🏠 Menu</button>
+</a>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Správa slovíček</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Správa slovíček</h1>
+<a href="/">
+    <button>🏠 Menu</button>
+</a>
+<form action="/pridej" method="post">
+
+    <input
+        type="text"
+        name="english"
+        placeholder="Anglicky"
+        required
+    >
+
+    <input
+        type="text"
+        name="czech"
+        placeholder="Česky"
+        required
+    >
+
+    <button type="submit">
+        ➕ Přidat slovíčko
+    </button>
+
+</form>
+
+<br>
+
+<table>
+
+<tr>
+    <th>Anglicky</th>
+    <th>Česky</th>
+    <th>Akce</th>
+</tr>
+
+{% for slovo in slovicka %}
+
+<tr>
+    <td>{{ slovo.english }}</td>
+    <td>{{ slovo.czech }}</td>
+
+    <td>
+
+    <a href="/upravit/{{ loop.index0 }}">
+        <button class="edit-btn">
+            ✏️ Upravit
+        </button>
+    </a>
+
+    <a href="/smaz/{{ loop.index0 }}">
+        <button class="delete-btn">
+            ❌ Smazat
+        </button>
+    </a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/">
+    <button>🏠 Menu</button>
+</a>
+
+</body>
+</html>

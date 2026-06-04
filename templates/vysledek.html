@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Výsledek</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>{{ zprava }}</h1>
+
+<h2>Body: {{ body }}</h2>
+<div class="progress-container">
+
+    <div
+        class="progress-bar"
+        style="width: {{ progress }}%;"
+    >
+        {{ progress }}%
+    </div>
+
+</div>
+
+<h2>Životy: {{ srdicka }}</h2>
+<h2 class="hearts">
+    {{ srdicka }}
+</h2>
+
+<a href="/procvicovani">
+    <button>Další slovíčko</button>
+</a>
+<br><br>
+
+<a href="/">
+    <button>🏠 Menu</button>
+</a>
+</body>
+</html>

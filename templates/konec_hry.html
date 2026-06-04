@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konec hry</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>💀 Konec hry</h1>
+
+<div class="stat-box">
+
+    <h2>🏆 Rekord: {{ rekord }}</h2>
+
+    <h2>⭐ Body: {{ body }}</h2>
+
+    <h2>📈 Úspěšnost: {{ uspesnost }} %</h2>
+
+</div>
+
+<br>
+
+<a href="/nova_hra">
+    <button>
+        🔄 Hrát znovu
+    </button>
+</a>
+
+<a href="/">
+    <button>
+        🏠 Menu
+    </button>
+</a>
+
+</body>
+</html>
